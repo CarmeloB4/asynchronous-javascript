@@ -1,23 +1,23 @@
 console.log(`Before`)
 
-// PROMISES implementation
-getUser(1)
-	.then((user) => getRepositories(user.bitBucketUsername))
-	.then((repos) => getCommits(repos))
-	.then((commits) => console.log('Commits: ', commits))
-	.catch((error) => console.error('Error: ', error.message))
+// ASYNC / AWAIT implementation
+async function getBitBucketCommitsByUserId(id) {
+	const user = await getUser(id);
+	const repos = await getRepositories(user.bitBucketUsername)
+	const commits = await getCommits(repos[0])
 
-// CALLBACK HELL implementation
-// getUser(1,
-// 	(user) => {
-// 		getRepositories(user.bitBucketUsername,
-// 			(repos) => {
-// 				getCommits(repos[0],
-// 					(commits) => {
-// 						console.log('Commits:', commits);
-// 					});
-// 			})
-// 	});
+	console.log('Commits: ', commits)
+}
+
+getBitBucketCommitsByUserId(1);
+
+// // PROMISES implementation
+// getUser(1)
+// 	.then((user) => getRepositories(user.bitBucketUsername))
+// 	.then((repos) => getCommits(repos))
+// 	.then((commits) => console.log('Commits: ', commits))
+// 	.catch((error) => console.error('Error: ', error.message))
+
 
 console.log(`After`)
 
