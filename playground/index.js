@@ -1,25 +1,21 @@
 console.log(`Before`)
 
-getUser(1,
-	(user) => {
-		getRepositories(user.bitBucketUsername,
-			(repos) => {
-				getCommits(repos[0],
-					(commits) => {
-						console.log('Commits:', commits);
-					});
-			})
-	});
+getUser(1, getRepositories2);
 
 console.log(`After`)
 
-//<editor-fold desc="Synchronous implementation">
-// const user = getUser(1)
-// const repos = getRepositories(user.bitBucketUsername)
-// const commits = getCommits(repos[0]);
-// console.log('User', user);
-// console.log('Repos', repos);
-// console.log('Commits', commits);
+//<editor-fold desc="Named Function">
+function getRepositories2(user) {
+	return getRepositories(user.bitBucketUsername, getCommits2)
+}
+
+function getCommits2(repos) {
+	return getCommits(repos[0], displayCommits);
+}
+
+function displayCommits(commits) {
+	console.log('Commits', commits);
+}
 //</editor-fold>
 
 function getUser(id, callback) {
@@ -41,3 +37,5 @@ function getCommits(repos, callback) {
 		callback(['commit1'])
 	}, 200)
 }
+
+
