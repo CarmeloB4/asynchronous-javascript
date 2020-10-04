@@ -1,12 +1,16 @@
 console.log(`Before`)
+
 getUser(1, (user) => {
 	console.log('User', user);
 	getRepositories(user.bitBucketUsername, (repos) => {
 		console.log(`Repos`, repos )
+		getCommits(repos, (commits) => {
+			console.log('Commits:' ,commits);
+		});
 	})
 });
-console.log(`After`)
 
+console.log(`After`)
 function getUser(id, callback) {
 	setTimeout(() => {
 		console.log(`Reading a user from a database...`)
@@ -19,4 +23,10 @@ function getRepositories(username, callback) {
 		console.log(`Calling the BitBucket API....`)
 		callback(['repo1', 'repo2', 'repo3'])
 	})
+}
+
+function getCommits(repos, callback) {
+	setTimeout(() => {
+		callback(['commit1'])
+	}, 200)
 }
